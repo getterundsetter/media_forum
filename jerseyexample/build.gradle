@@ -1,0 +1,20 @@
+apply plugin: 'java-library'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'war'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    runtime 'com.google.code.gson:gson:2.8.5'
+    runtime 'org.glassfish.jersey.containers:jersey-container-servlet:2.25'
+    
+    runtime 'javax.xml.bind:jaxb-api:2.2.11'
+    runtime 'com.sun.xml.bind:jaxb-core:2.2.11'
+    runtime 'com.sun.xml.bind:jaxb-impl:2.2.11'
+    runtime 'javax.activation:activation:1.1.1'
+}
+
