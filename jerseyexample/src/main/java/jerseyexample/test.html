@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>TEST</h3>
+
+JSON-Objekt<br>
+<textarea id="myTextarea">
+schreibe hier was rein....</textarea>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+<script>
+function myFunction() {
+  var contentvar = document.getElementById("myTextarea").value;
+//  var myObj = { content: contentvar};
+//  var myJSON = JSON.stringify(myObj);
+//  document.getElementById("demo").innerHTML = myJSON;
+
+  axios.post('/', {
+	    content: contentvar,
+	  })
+	  .then(function (response) {
+	    console.log(response);
+	  })
+	  .catch(function (error) {
+	    console.log(error);
+	  });
+}
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
