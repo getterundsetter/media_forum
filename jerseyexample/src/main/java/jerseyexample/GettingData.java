@@ -27,7 +27,7 @@ public class GettingData {
 
 	@GET
 	@Produces(MediaType.TEXT_HTML )
-	public String message()
+	public String feed()
 	{
 		//InputStream is = jerseytest.class.getClassLoader().getResourceAsStream("/jerseyexample/test.html");
 		// public static String read(InputStream input) throws IOException {
@@ -59,7 +59,7 @@ public class GettingData {
 				"//  var myJSON = JSON.stringify(myObj);\r\n" + 
 				"//  document.getElementById(\"demo\").innerHTML = myJSON;\r\n" + 
 				"\r\n" + 
-				"  axios.post('/jerseyexample/message', {\r\n" + 
+				"  axios.post('/jerseyexample/feed', {\r\n" + 
 				"	    content: contentvar,\r\n" +  
 				"	  })\r\n" + 
 				"	  .then(function (response) {\r\n" + 
@@ -82,6 +82,8 @@ public class GettingData {
 				;
 	}
 	
+	
+	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public String postMessage (String content) {
@@ -90,41 +92,26 @@ public class GettingData {
 			int id = posts.size();
 			post = new Post(content, id);
 			posts.add(post);
-			
-			//System.out.println(posts.get(id));
-			//System.out.println(id);
-		}
-		
-		
-		
+		}		
+				
 		Gson gson = new Gson();		
-		//System.out.println(content);
 		System.out.println(gson.toJson(post));
-		//System.out.println("_______________________________________________________________________________________");
-		return gson.toJson(post);
-
 		
-		
-		/*JsonObject posttext = new JsonObject();
-		String message = posttext.toString();
-		
-		System.out.println(message);*/
-		
-		
+		return gson.toJson(post);		
 	} 	
+	
 	
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/posts")
-	public String getPlainTextGreetin(@PathParam("id") int id)
-	{
-		
+	public String getJsonAllPosts(@PathParam("id") int id)
+	{		 
 		List<Post> dummylist = new ArrayList<Post>();
 		
 		Post post = null;
 		Gson gson = new Gson();		
-		//System.out.println(content);
+
 		for (int i = 0; i < posts.size(); ++i) {
 			post = posts.get(id);
 			System.out.println(gson.toJson(post));
@@ -133,64 +120,38 @@ public class GettingData {
 			templist = posts.get(id++);
 			dummylist.add(templist);
 		}
-		
-		
-		//Gson gson = new Gson();
+				
 		return gson.toJson(dummylist);
-		//System.out.println("_______________________________________________________________________________________");
-		//return gson.toJson(post);
-		
-		
 	}
 	
-	/*@GET
+	
+	
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/posts/{id}")
-	public String getJsonGreeting(@PathParam("id") int id, String content)
-	{
-		String greetingtext = GREETINGS[id];
-		Post greeting = new Post(greetingtext, id);
-		Gson gson = new Gson();
-		return gson.toJson(greeting);
-	}*/
-	
-	
-	
+	public String getJsonSinglePost(@PathParam("id") int id)
+	{		
+		Post singlepost = null;
+		Gson gson = new Gson();	
+		singlepost = posts.get(id);
+		System.out.println(gson.toJson(singlepost));
+		
+		return gson.toJson(singlepost);
+	}
 	
 	
 	/*@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	
-	
-	public String getGreetings()
-	{
-		posts.get(pos);
-		List<Greeting> greetinglist = new ArrayList<>();
-		
-		for (int i = 0; i < GREETINGS.length; ++i)
-			greetinglist.add(new Greeting(GREETINGS[i], i));
-		
-		Gson gson = new Gson();
-		return gson.toJson(greetinglist.toArray(new Greeting[greetinglist.size()]));
-	}
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
-	public String getJsonGreeting(@PathParam("id") int id, String content)
-	{
-		String greetingtext = GREETINGS[id];
-		Greeting greeting = new Greeting(greetingtext, id);
-		Gson gson = new Gson();
-		return gson.toJson(greeting);
-	}
-	
-	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/{id}")
-	public String getPlainTextGreeting(@PathParam("id") int id)
+	@Path("/posts/{id}/plain")
+	public String getPlainTextSinglePost(@PathParam("id") int id)
 	{
-		String greeting = GREETINGS[id];
-		return greeting;
+		
+		Post singlepost = null;
+		singlepost = posts.get(id);
+		String singleposttext = singlepost.toString();
+		System.out.println(singleposttext);
+		
+		return singleposttext;
 	}*/
+		
 }
