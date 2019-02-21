@@ -2,29 +2,24 @@ package jerseyexample;
 
 
 
-import javax.ws.rs.GET;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+
+import javax.inject.Singleton;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 
-
+@Singleton
 @Path("message")
 public class GettingData {
 	
 
-	protected List<Post> posts = new ArrayList<Post>();
+	protected List<Post> posts = Collections.synchronizedList(new ArrayList<Post>());
 
 
 	@GET
@@ -87,9 +82,12 @@ public class GettingData {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public String postMessage (String content) {
-		int id = posts.size();
-		Post post = new Post(content, id);
-		posts.add(post);
+		synchronized(posts) {
+			int id = posts.size();
+			Post post = new Post(content, id);
+			posts.add(post);
+		}
+		
 		
 		System.out.println(content);
 		return content;
