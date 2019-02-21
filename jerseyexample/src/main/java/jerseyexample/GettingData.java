@@ -151,7 +151,7 @@ public class GettingData {
 		String singleposttext = singlepost.toString();
 		System.out.println(singleposttext);
 		
-		return singleposttext; 
+		return singleposttext;  
 	}*/
 		
 }
