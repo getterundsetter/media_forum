@@ -10,12 +10,15 @@ import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.google.gson.Gson;
+
 
 @Singleton
-@Path("message")
+@Path("feed")
 public class GettingData {
 	
 
@@ -82,15 +85,23 @@ public class GettingData {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public String postMessage (String content) {
+		Post post = null;
 		synchronized(posts) {
 			int id = posts.size();
-			Post post = new Post(content, id);
+			post = new Post(content, id);
 			posts.add(post);
+			
+			//System.out.println(posts.get(id));
+			//System.out.println(id);
 		}
 		
 		
-		System.out.println(content);
-		return content;
+		
+		Gson gson = new Gson();		
+		//System.out.println(content);
+		System.out.println(gson.toJson(post));
+		//System.out.println("_______________________________________________________________________________________");
+		return gson.toJson(post);
 
 		
 		
@@ -101,7 +112,51 @@ public class GettingData {
 		
 		
 	} 	
-
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/posts")
+	public String getPlainTextGreetin(@PathParam("id") int id)
+	{
+		
+		List<Post> dummylist = new ArrayList<Post>();
+		
+		Post post = null;
+		Gson gson = new Gson();		
+		//System.out.println(content);
+		for (int i = 0; i < posts.size(); ++i) {
+			post = posts.get(id);
+			System.out.println(gson.toJson(post));
+			
+			Post templist = new Post();
+			templist = posts.get(id++);
+			dummylist.add(templist);
+		}
+		
+		
+		//Gson gson = new Gson();
+		return gson.toJson(dummylist);
+		//System.out.println("_______________________________________________________________________________________");
+		//return gson.toJson(post);
+		
+		
+	}
+	
+	/*@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/posts/{id}")
+	public String getJsonGreeting(@PathParam("id") int id, String content)
+	{
+		String greetingtext = GREETINGS[id];
+		Post greeting = new Post(greetingtext, id);
+		Gson gson = new Gson();
+		return gson.toJson(greeting);
+	}*/
+	
+	
+	
+	
 	
 	/*@GET
 	@Produces(MediaType.APPLICATION_JSON)
