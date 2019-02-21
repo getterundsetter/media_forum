@@ -3,13 +3,30 @@ package jerseyexample;
 
 
 import javax.ws.rs.GET;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+
 
 @Path("message")
 public class GettingData {
+	
+
+	protected List<Post> posts = new ArrayList<Post>();
+
+
 	@GET
 	@Produces(MediaType.TEXT_HTML )
 	public String message()
@@ -66,12 +83,61 @@ public class GettingData {
 				"</html>"
 				;
 	}
+	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public String postMessage (String content) {
+		int id = posts.size();
+		Post post = new Post(content, id);
+		posts.add(post);
+		
 		System.out.println(content);
-		
 		return content;
+
 		
+		
+		/*JsonObject posttext = new JsonObject();
+		String message = posttext.toString();
+		
+		System.out.println(message);*/
+		
+		
+	} 	
+
+	
+	/*@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	
+	
+	public String getGreetings()
+	{
+		posts.get(pos);
+		List<Greeting> greetinglist = new ArrayList<>();
+		
+		for (int i = 0; i < GREETINGS.length; ++i)
+			greetinglist.add(new Greeting(GREETINGS[i], i));
+		
+		Gson gson = new Gson();
+		return gson.toJson(greetinglist.toArray(new Greeting[greetinglist.size()]));
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public String getJsonGreeting(@PathParam("id") int id, String content)
+	{
+		String greetingtext = GREETINGS[id];
+		Greeting greeting = new Greeting(greetingtext, id);
+		Gson gson = new Gson();
+		return gson.toJson(greeting);
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/{id}")
+	public String getPlainTextGreeting(@PathParam("id") int id)
+	{
+		String greeting = GREETINGS[id];
+		return greeting;
+	}*/
 }

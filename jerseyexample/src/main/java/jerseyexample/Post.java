@@ -4,10 +4,10 @@ package jerseyexample;
  *  Class representing a JSON-convertible greeting.
  *
  */
-public class Greeting
+public class Post
 {
 	/** The greeting text. */
-	protected String greeting;
+	protected String post;
 	
 	/** The greeting ID. */
 	protected int id;
@@ -15,21 +15,21 @@ public class Greeting
 	/**
 	 *  Empty bean constructor.
 	 */
-	public Greeting()
+	public Post()
 	{
-		greeting = null;
+		post = null;
 		id = -1;
 	}
 	
 	/**
 	 *  Creates a ready-to-use greeting.
 	 *  
-	 *  @param greeting The greeting text.
+	 *  @param post The greeting text.
 	 *  @param id The greeting ID.
 	 */
-	public Greeting(String greeting, int id)
+	public Post(String post, int id)
 	{
-		this.greeting = greeting;
+		this.post = post;
 		this.id = id;
 	}
 
@@ -38,9 +38,9 @@ public class Greeting
 	 *
 	 *  @return The greeting text.
 	 */
-	public String getGreeting()
+	public String getPost()
 	{
-		return greeting;
+		return post;
 	}
 
 	/**
@@ -48,9 +48,9 @@ public class Greeting
 	 *  
 	 *  @param greeting The greeting text.
 	 */
-	public void setGreeting(String greeting)
+	public void setPost(String post)
 	{
-		this.greeting = greeting;
+		this.post = post;
 	}
 
 	/**

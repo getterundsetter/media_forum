@@ -39,13 +39,13 @@ public class GreetingsService
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getGreetings()
 	{
-		List<Greeting> greetinglist = new ArrayList<>();
+		List<Post> greetinglist = new ArrayList<>();
 		
 		for (int i = 0; i < GREETINGS.length; ++i)
-			greetinglist.add(new Greeting(GREETINGS[i], i));
+			greetinglist.add(new Post(GREETINGS[i], i));
 		
 		Gson gson = new Gson();
-		return gson.toJson(greetinglist.toArray(new Greeting[greetinglist.size()]));
+		return gson.toJson(greetinglist.toArray(new Post[greetinglist.size()]));
 	}
 	
 	@GET
@@ -54,7 +54,7 @@ public class GreetingsService
 	public String getJsonGreeting(@PathParam("id") int id, String content)
 	{
 		String greetingtext = GREETINGS[id];
-		Greeting greeting = new Greeting(greetingtext, id);
+		Post greeting = new Post(greetingtext, id);
 		Gson gson = new Gson();
 		return gson.toJson(greeting);
 	}
