@@ -18,17 +18,16 @@ import com.google.gson.Gson;
 
 
 @Singleton
-@Path("feed")
-public class GettingData {
+@Path("feed2")
+public class GettingDataAndInsert {
 	
 
-	//protected List<Post> posts = Collections.synchronizedList(new ArrayList<Post>());
-	
-	protected PostDao dao = new PostDao();
+	protected List<Post> posts = Collections.synchronizedList(new ArrayList<Post>());
+
 
 	@GET
 	@Produces(MediaType.TEXT_HTML )
-	public String feed()
+	public String feed2()
 	{
 		//InputStream is = jerseytest.class.getClassLoader().getResourceAsStream("/jerseyexample/test.html");
 		// public static String read(InputStream input) throws IOException {
@@ -60,7 +59,7 @@ public class GettingData {
 				"//  var myJSON = JSON.stringify(myObj);\r\n" + 
 				"//  document.getElementById(\"demo\").innerHTML = myJSON;\r\n" + 
 				"\r\n" + 
-				"  axios.post('/jerseyexample/feed', {\r\n" + 
+				"  axios.post('/jerseyexample/feed2', {\r\n" + 
 				"	    content: contentvar,\r\n" +  
 				"	  })\r\n" + 
 				"	  .then(function (response) {\r\n" + 
@@ -88,14 +87,13 @@ public class GettingData {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public String postMessage (String content) {
-		Post post = dao.insertPost(content);
-//		synchronized(posts) {
-//			int id = posts.size();
-//			post = new Post(content, id);
-//			posts.add(post);
-//		}		
-		
-		
+		Post post = null;
+		synchronized(posts) {
+			int id = posts.size();
+			post = new Post(content, id);
+			posts.add(post);
+		}		
+				
 		Gson gson = new Gson();		
 		System.out.println(gson.toJson(post));
 		
@@ -109,19 +107,19 @@ public class GettingData {
 	@Path("/posts")
 	public String getJsonAllPosts(@PathParam("id") int id)
 	{		 
-		List<Post> dummylist = dao.readPosts();
+		List<Post> dummylist = new ArrayList<Post>();
 		
-//		Post post = null;
+		Post post = null;
 		Gson gson = new Gson();		
 
-//		for (int i = 0; i < posts.size(); ++i) {
-//			post = posts.get(id);
-//			System.out.println(gson.toJson(post));
-//			
-//			Post templist = new Post();
-//			templist = posts.get(id++);
-//			dummylist.add(templist);
-//		}
+		for (int i = 0; i < posts.size(); ++i) {
+			post = posts.get(id);
+			System.out.println(gson.toJson(post));
+			
+			Post templist = new Post();
+			templist = posts.get(id++);
+			dummylist.add(templist);
+		}
 				
 		return gson.toJson(dummylist);
 	}
@@ -133,9 +131,9 @@ public class GettingData {
 	@Path("/posts/{id}")
 	public String getJsonSinglePost(@PathParam("id") int id)
 	{		
-		Post singlepost = dao.readPost(id);
+		Post singlepost = null;
 		Gson gson = new Gson();	
-//		singlepost = posts.get(id);
+		singlepost = posts.get(id);
 		System.out.println(gson.toJson(singlepost));
 		
 		return gson.toJson(singlepost);

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException; 
 import java.sql.Statement;  
 
-public class connect { 
+public class ReadFromDB { 
    // JDBC driver name and database URL 
    static final String JDBC_DRIVER = "org.h2.Driver";   
    static final String DB_URL = "jdbc:h2:tcp://localhost/~/test";  
@@ -14,7 +14,7 @@ public class connect {
    static final String USER = "sa"; 
    static final String PASS = ""; 
   
-   public void createTableDB (String[] args) { 
+   public void readPost(String[] args) { 
       Connection conn = null; 
       Statement stmt = null; 
       try { 
@@ -28,12 +28,12 @@ public class connect {
          //STEP 3: Execute a query 
          System.out.println("Creating table in given database..."); 
          stmt = conn.createStatement(); 
-         String sql = "CREATE TABLE IF NOT EXISTS  POSTS " + 
-                 "(id INTEGER not NULL, " + 
-                 " content VARCHAR(255), " +
-                 " PRIMARY KEY ( id ))";  
+         String sql = "SELECT * FROM POSTS;";
         		 
-       		
+       		/*"CREATE TABLE IF NOT EXISTS  POSTS " + 
+            "(id INTEGER not NULL, " + 
+            " content VARCHAR(255), " +
+            " PRIMARY KEY ( id ))";  */
          stmt.executeUpdate(sql);
          System.out.println("Created table in given database..."); 
          
