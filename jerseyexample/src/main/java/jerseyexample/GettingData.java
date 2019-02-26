@@ -24,9 +24,12 @@ public class GettingData {
 
 	//protected List<Post> posts = Collections.synchronizedList(new ArrayList<Post>());
 	
+	// creates variable of the data access object "PostDao" which includes the database connections and select and insert methods
 	protected PostDao dao = new PostDao();
-
+	
+	//responds to http get requests
 	@GET
+	//produces media type html text
 	@Produces(MediaType.TEXT_HTML )
 	public String feed()
 	{
@@ -37,7 +40,7 @@ public class GettingData {
 		//        }
 		//    }
 		
-		
+		// demo/test GUI for testing database and service functionality
 		return "<!DOCTYPE html>\r\n" + 
 				"<html>\r\n" + 
 				"<body>\r\n" + 
@@ -60,7 +63,9 @@ public class GettingData {
 				"//  var myJSON = JSON.stringify(myObj);\r\n" + 
 				"//  document.getElementById(\"demo\").innerHTML = myJSON;\r\n" + 
 				"\r\n" + 
-				"  axios.post('/jerseyexample/feed', {\r\n" + 
+				//axios.post determines url the textarea input is send to
+				"  axios.post('/jerseyexample/feed', "
+				+ "{\r\n" + 
 				"	    content: contentvar,\r\n" +  
 				"	  })\r\n" + 
 				"	  .then(function (response) {\r\n" + 
@@ -84,10 +89,13 @@ public class GettingData {
 	}
 	
 	
-	
+	//responds to http post request
 	@POST
+	//produces media type JSON
 	@Produces(MediaType.APPLICATION_JSON)
+	//recieves content of of text area JSON input and saves it into the database
 	public String postMessage (String content) {
+		//inserts a Posts content into database with insertPost method
 		Post post = dao.insertPost(content);
 //		synchronized(posts) {
 //			int id = posts.size();
@@ -95,23 +103,28 @@ public class GettingData {
 //			posts.add(post);
 //		}		
 		
-		
+		//create new object of type GSON
 		Gson gson = new Gson();		
 		System.out.println(gson.toJson(post));
 		
+		//gson.toJson converts Java object of post to JSON 
 		return gson.toJson(post);		
 	} 	
 	
 	
-	
+	//responds to http get requests
 	@GET
+	//produces media type JSON
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/posts")
+	//method can be called by url path /posts
+	@Path("/posts") //wird path param hier noch benötigt?
 	public String getJsonAllPosts(@PathParam("id") int id)
-	{		 
+	{	
+		//creates a list of type Post and executes readPost method
 		List<Post> dummylist = dao.readPosts();
 		
 //		Post post = null;
+		//creates Java object of type GSON
 		Gson gson = new Gson();		
 
 //		for (int i = 0; i < posts.size(); ++i) {
@@ -122,22 +135,28 @@ public class GettingData {
 //			templist = posts.get(id++);
 //			dummylist.add(templist);
 //		}
-				
+		//gson.toJson converts Java object of dummylist to JSON		
 		return gson.toJson(dummylist);
 	}
 	
 	
-	
+	//responds to http get requests
 	@GET
+	//produces media type JSON
 	@Produces(MediaType.APPLICATION_JSON)
+	//method can be called by url path /posts/{id}
 	@Path("/posts/{id}")
+	//recieves id of url path to select requested post
 	public String getJsonSinglePost(@PathParam("id") int id)
 	{		
+		//executes readPost method
 		Post singlepost = dao.readPost(id);
+		//creates Java object of type GSON
 		Gson gson = new Gson();	
 //		singlepost = posts.get(id);
 		System.out.println(gson.toJson(singlepost));
 		
+		//gson.toJson converts Java object of dummylist to JSON	
 		return gson.toJson(singlepost);
 	}
 	

@@ -1,15 +1,15 @@
 package jerseyexample;
 
 /**
- *  Class representing a JSON-convertible greeting.
+ *  Class representing a JSON-convertible Post.
  *
  */
 public class Post
 {
-	/** The greeting text. */
+	/** The Post text. */
 	protected String post;
 	
-	/** The greeting ID. */
+	/** The Post ID. */
 	protected int id;
 	
 	/**
@@ -22,10 +22,10 @@ public class Post
 	}
 	
 	/**
-	 *  Creates a ready-to-use greeting.
+	 *  Creates a ready-to-use Post.
 	 *  
-	 *  @param post The greeting text.
-	 *  @param id The greeting ID.
+	 *  @param post The Post text.
+	 *  @param id The Post ID.
 	 */
 	public Post(String post, int id)
 	{
@@ -34,9 +34,9 @@ public class Post
 	}
 
 	/**
-	 *  Gets the greeting text.
+	 *  Gets the Post text.
 	 *
-	 *  @return The greeting text.
+	 *  @return The Post text.
 	 */
 	public String getPost()
 	{
@@ -44,9 +44,9 @@ public class Post
 	}
 
 	/**
-	 *  Sets the greeting text.
+	 *  Sets the Post text.
 	 *  
-	 *  @param greeting The greeting text.
+	 *  @param Post The Post text.
 	 */
 	public void setPost(String post)
 	{
